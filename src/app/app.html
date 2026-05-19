@@ -1,147 +1,195 @@
 <div class="dashboard-container">
-  <header class="dashboard-header">
-    <div class="search-container">
-      <span class="search-icon">🔍</span>
-      <input type="text" placeholder="Pesquisar..." class="search-input">
+    <div style="display: flex; flex-direction: column; gap: 5px; margin-bottom: 20px;">
+        <span style="font-size: 32px; font-weight: 700;">Real Time</span>
+        <span style="font-size: 16px; color: grey;">Análise em tempo real</span>
     </div>
 
-    <div class="dropdown-select">
-      <span>Todas as categorias</span>
-      <span class="arrow-down">▼</span>
-    </div>
+    <header class="dashboard-header">
+        <div class="search-container">
+            <input type="text" placeholder="Pesquisar..." class="search-input">
+            <span class="material-symbols-outlined" style="font-size: 15px">search</span>
+        </div>
 
-    <div class="dropdown-select">
-      <span>Todos os autores</span>
-      <span class="arrow-down">▼</span>
-    </div>
+        <div class="dropdown-select">
+            <span>Todas as categorias</span>
+            <span class="arrow-down">▼</span>
+        </div>
 
-    <div class="filters-group">
-      <span class="filters-label">Filtros</span>
-      <div class="badge purple">Visitante <span class="close-btn">×</span></div>
-      <div class="badge purple">Assinante <span class="close-btn">×</span></div>
-    </div>
-    
-    <button class="icon-btn-right">🔍</button>
-  </header>
+        <div class="dropdown-select">
+            <span>Todos os autores</span>
+            <span class="arrow-down">▼</span>
+        </div>
 
-  <main class="dashboard-grid">
-    <section class="col-left">
-      <div class="card main-metric">
-        <h3>Visitantes online</h3>
-        <p class="huge-number">{{ onlineUsers }}</p>
-      </div>
-      
-      <div class="card-row">
-        <div class="card half">
-          <small>Recirculação</small>
-          <h3>8%</h3>
+        <div class="filters-group">
+            <span class="filters-label">Filtros</span>
+            <div class="badge purple">Visitante <span class="close-btn">×</span></div>
+            <div class="badge purple">Assinante <span class="close-btn">×</span></div>
         </div>
-        <div class="card half">
-          <small>Tempo Engajado</small>
-          <h3>0:31</h3>
-        </div>
-      </div>
+    </header>
 
-      <div class="card-row">
-        <div class="card half">
-          <small>Rolagem Média</small>
-          <h3>68%</h3>
-        </div>
-        <div class="card half">
-          <small>RFV Médio</small>
-          <h3>18.5</h3>
-        </div>
-      </div>
+    <main class="dashboard-grid">
+        <section class="col-left">
+            <div class="main-metric-container">
+                <div class="card main-metric">
+                    <span style="color: #fff">Visitantes online</span>
+                    <span class="huge-number" style="color: #fff">{{ onlineUsers }}</span>
+                </div>
 
-      <div class="card">
-        <h4 class="section-title">Tipo de usuários</h4>
-        <div class="metric-row" *ngFor="let item of userTypes">
-          <span class="metric-label">{{ item.label }}</span>
-          <span class="metric-value">{{ item.value }}</span>
-          <div class="metric-bar-container">
-            <div class="metric-bar" [style.width.%]="item.percentage"></div>
-          </div>
-        </div>
-      </div>
+                <div class="card comparison-card" style="padding: 0px;">
+                    <div class="comparison-header">
+                        <span class="material-symbols-outlined" style="font-size: 15px">info</span>
+                        <span class="title" style="font-size: 16px;">Comparação</span>
+                    </div>
+                    <div class="comparison-details">
+                        <span class="details-text">
+                            Neste horário, número de visitantes online em seu site normalmente é entre 0 e 1298. Hoje
+                            você está em <span style="color: #7b2ae1; font-weight: 700;">1096</span></span>
+                        <span class="details-text">No último mês, seu máximo foi de <span
+                                style="font-weight: 700;">2309</span></span>
+                    </div>
+                </div>
+            </div>
 
-      <div class="card">
-        <h4 class="section-title">RFV (Recência, Frequência e Volume)</h4>
-        <div class="metric-row" *ngFor="let item of rfvMetrics">
-          <span class="metric-label">{{ item.label }}</span>
-          <span class="metric-value">{{ item.value }}</span>
-          <div class="metric-bar-container">
-            <div class="metric-bar" [style.width.%]="item.percentage"></div>
-          </div>
-        </div>
-      </div>
-    </section>
+            <div class="card-row">
+                <div class="card half">
+                    <div style="display: flex; flex-direction: column; gap: 10px">
+                        <h1 style="font-size: 12px; font-weight: 200;">Recirculação</h1>
+                        <span style="font-size: 20px; font-weight: 700;">8%</span>
+                    </div>
+                </div>
+                <div class="card half">
+                    <div style="display: flex; flex-direction: column; gap: 10px">
+                        <h1 style="font-size: 12px; font-weight: 200;">Tempo Engajado</h1>
+                        <span style="font-size: 20px; font-weight: 700;">0:31</span>
+                    </div>
+                </div>
+            </div>
 
-    <section class="col-center">
-      <div class="summary-cards">
-        <div class="card">
-          <small>Hoje até agora...</small>
-          <h2>{{ pageviewsToday | number }}</h2>
-          <small class="muted">Pageviews</small>
-        </div>
-        <div class="card">
-          <small>Visitantes únicos</small>
-          <h2>{{ uniqueVisitors | number }}</h2>
-          <small class="muted">UV</small>
-        </div>
-      </div>
-      
-      <div class="card">
-        <h3>Páginas Mais Acessadas</h3>
-        <table class="custom-table">
-          <thead>
-            <tr>
-              <th>UV</th>
-              <th>Página</th>
-              <th>Tempo Engajado</th>
-              <th>% Scrolling</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let page of pages">
-              <td><strong>{{ page.uv }}</strong></td>
-              <td>
-                <div class="page-title">{{ page.title }}</div>
-                <small class="muted">{{ page.url }} | <span class="tag">Cidade</span></small>
-              </td>
-              <td>{{ page.time }}</td>
-              <td>{{ page.scrolling }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+            <div class="card-row">
+                <div class="card half">
+                    <div style="display: flex; flex-direction: column; gap: 10px">
+                        <h1 style="font-size: 12px; font-weight: 200;">Rolagem média</h1>
+                        <span style="font-size: 20px; font-weight: 700;">68%</span>
+                    </div>
+                </div>
+                <div class="card half">
+                    <div style="display: flex; flex-direction: column; gap: 10px">
+                        <h1 style="font-size: 12px; font-weight: 200;">RFV médio</h1>
+                        <span style="font-size: 20px; font-weight: 700;">18.5</span>
+                    </div>
+                </div>
+            </div>
 
-    <section class="col-right">
-      <div class="card">
-        <div class="traffic-header">
-          <h3>Tráfego</h3>
-          <span class="traffic-subtitle">Origem ▼</span>
-        </div>
-        
-        <div class="progress-group" *ngFor="let source of trafficSources">
-          <div class="progress-labels">
-            <span class="source-label">{{ source.label }}</span>
-            <span class="source-percentage">{{ source.percentage }}%</span>
-          </div>
-          <div class="bar">
-            <div class="fill" [ngClass]="source.colorClass" [style.width.%]="source.percentage"></div>
-          </div>
-        </div>
-      </div>
+            <div class="card">
+                <h4 class="section-title">Tipo de usuários</h4>
+                <div class="metric-row" *ngFor="let item of userTypes">
+                    <span class="metric-label">{{ item.label }}</span>
+                    <span class="metric-value">{{ item.value }}</span>
+                    <div class="metric-bar-container">
+                        <div class="metric-bar" [style.width.%]="item.percentage"></div>
+                    </div>
+                </div>
+            </div>
 
-      <div class="card">
-        <h3 class="references-title">Referências</h3>
-        
-        <div class="reference-row" *ngFor="let ref of references">
-          <span class="reference-name">{{ ref.name }}</span>
-          <span class="reference-count">{{ ref.count }}</span>
-        </div>
-      </div>
-    </section>
-  </main>
+            <div class="card">
+                <h4 class="section-title">RFV (Recência, Frequência e Volume)</h4>
+                <div class="metric-row" *ngFor="let item of rfvMetrics">
+                    <span class="metric-label">{{ item.label }}</span>
+                    <span class="metric-value">{{ item.value }}</span>
+                    <div class="metric-bar-container">
+                        <div class="metric-bar" [style.width.%]="item.percentage"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="col-center">
+            <div class="summary-cards">
+                <div class="card">
+                    <div style="display: flex; flex-direction: column; gap: 5px">
+                        <span style="font-size: 12px; font-weight: 200;">Hoje até agora...</span>
+                        <h2 style="margin:0;">{{ pageviewsToday | number }}</h2>
+                        <span style="font-size: 12px; font-weight: 200;">Pageviews</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span style="font-size: 12px; font-weight: 200;">Visitantes únicos</span>
+                    <h2 style="margin:0;">{{ uniqueVisitors | number }}</h2>
+                    <span style="font-size: 12px; font-weight: 200;">UV</span>
+                </div>
+            </div>
+
+            <div>
+                <app-chart></app-chart>
+            </div>
+
+            <div class="card">
+                <div style="display: flex; flex-direction: column; gap: 5px;">
+                    <span class="section-title">Páginas Mais Acessadas</span>
+                    <span>Principais artigos ordenados por engajamento</span>
+                </div>
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>UV</th>
+                            <th>Página</th>
+                            <th>Tempo Engajado</th>
+                            <th>% Scrolling</th>
+                            <th>Tendências</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let page of pages">
+                            <td><strong>{{ page.uv }}</strong></td>
+                            <td>
+                                <div class="page-title">{{ page.title }}</div>
+                                <small class="muted">{{ page.url }} | <span class="tag">Cidade</span></small>
+                            </td>
+                            <td>{{ page.time }}</td>
+                            <td>{{ page.scrolling }}</td>
+                            <td><mini-app-chart /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="col-right">
+            <div class="card">
+                <div class="traffic-header">
+                    <h3 class="section-title">Tráfego</h3>
+                    <span class="traffic-subtitle">Origem ▼</span>
+                </div>
+
+                <div class="progress-group" *ngFor="let source of trafficSources">
+                    <div class="progress-labels">
+                        <span class="source-label">{{ source.label }}</span>
+                        <span class="source-percentage">{{ source.percentage }}%</span>
+                    </div>
+                    <div class="bar">
+                        <div class="fill" [ngClass]="source.colorClass" [style.width.%]="source.percentage"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="section-title">Referências</h3>
+
+                <div class="reference-row" *ngFor="let ref of references">
+                    <span class="metric-label">{{ ref.name }}</span>
+                    <span class="metric-value">{{ ref.count }}</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="section-title">Categorias de Páginas</h3>
+
+                <div class="reference-row" *ngFor="let ref of categoryPages">
+                    <span class="metric-label">{{ ref.name }}</span>
+                    <span class="metric-value">{{ ref.count }}</span>
+                </div>
+            </div>
+        </section>
+    </main>
 </div>

@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { miniChartComponent } from './minichart/minichart.component';
+import { chartComponent } from './chart/chart.component';
 
 interface PageData {
   uv: number;
@@ -18,7 +20,7 @@ interface MetricItem {
 interface TrafficSourceItem {
   label: string;
   percentage: number;
-  colorClass: string; 
+  colorClass: string;
 }
 
 interface DeviceItem {
@@ -35,56 +37,132 @@ interface ReferenceItem {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, chartComponent, miniChartComponent, miniChartComponent],
   templateUrl: './app.html',
-  styleUrls: ['./app.css']
+  styleUrls: ['./app.css'],
 })
 export class AppComponent {
+  constructor(private cdr: ChangeDetectorRef) {}
   onlineUsers = 1096;
   pageviewsToday = 75401;
   uniqueVisitors = 39405;
 
-  userTypes: MetricItem[] = [
-    { label: 'Novo', value: 218, percentage: 100 },
-    { label: 'Retornando', value: 482, percentage: 45 },
-    { label: 'Fiel', value: 389, percentage: 20 },
-    { label: 'Não classificado', value: 7, percentage: 5 }
-  ];
+  references: any;
+  userTypes: any;
+  rfvMetrics: any;
+  pages: any;
+  trafficSources: any;
+  categoryPages: any;
 
-  rfvMetrics: MetricItem[] = [
-    { label: '0-5', value: 245, percentage: 100 },
-    { label: '6-10', value: 189, percentage: 75 },
-    { label: '11-15', value: 156, percentage: 60 },
-    { label: '16-20', value: 123, percentage: 45 },
-    { label: '21-25', value: 98, percentage: 30 },
-    { label: '26-30', value: 67, percentage: 15 }
-  ];
+  ngOnInit() {
+    this.buildAll();
 
-  trafficSources: TrafficSourceItem[] = [
-    { label: 'Interno', percentage: 44, colorClass: 'purple' },
-    { label: 'Busca', percentage: 35, colorClass: 'pink' },
-    { label: 'Social', percentage: 14, colorClass: 'cyan' },
-    { label: 'Direto', percentage: 6, colorClass: 'purple-dark' },
-    { label: 'Links', percentage: 2, colorClass: 'purple-dark' }
-  ];
+    setInterval(() => {
+      this.buildAll();
+    }, 5000);
+  }
 
-  pages: PageData[] = [
-    { uv: 68, title: 'Correio do Povo', url: 'taroba.com.br/', time: '0:12', scrolling: '73%' },
-    { uv: 25, title: 'Adolescente mata pais e irmão de três anos...', url: 'taroba.com.br/', time: '0:37', scrolling: '82%' },
-    { uv: 16, title: 'Acúmulo de água alaga ruas, atinge...', url: 'taroba.com.br/', time: '0:41', scrolling: '76%' },
-    { uv: 12, title: 'Kannemann está entre as vítimas de...', url: 'taroba.com.br/', time: '0:22', scrolling: '68%' }
-  ];
+  buildAll(): void {
+    this.buildReferences();
+    this.buildUserTypes();
+    this.buildRfvMetrics();
+    this.buildTrafficSources();
+    this.buildPages();
+    this.buildCategoryPages();
 
-  references: ReferenceItem[] = [
-    { name: 'Google Discover', count: 303 },
-    { name: 'Facebook', count: 99 },
-    { name: 'Google Search', count: 74 },
-    { name: 'Email, apps, IM', count: 50 },
-    { name: 'Google News', count: 11 },
-    { name: 'Taboola', count: 4 },
-    { name: 'Twitter', count: 4 },
-    { name: 'T7.com', count: 3 },
-    { name: 'Bing', count: 2 },
-    { name: 'Instagram', count: 2 }
-  ];
+    this.cdr.detectChanges();
+  }
+
+  buildUserTypes(): void {
+    this.userTypes = [
+      { label: 'Novo', value: this.getreferencesNumber(), percentage: 100 },
+      { label: 'Retornando', value: this.getreferencesNumber(), percentage: 45 },
+      { label: 'Fiel', value: this.getreferencesNumber(), percentage: 20 },
+      { label: 'Não classificado', value: this.getreferencesNumber(), percentage: 5 },
+    ];
+  }
+
+  buildRfvMetrics(): void {
+    this.rfvMetrics = [
+      { label: '0-5', value: this.getreferencesNumber(), percentage: 100 },
+      { label: '6-10', value: this.getreferencesNumber(), percentage: 75 },
+      { label: '11-15', value: this.getreferencesNumber(), percentage: 60 },
+      { label: '16-20', value: this.getreferencesNumber(), percentage: 45 },
+      { label: '21-25', value: this.getreferencesNumber(), percentage: 30 },
+      { label: '26-30', value: this.getreferencesNumber(), percentage: 15 },
+    ];
+  }
+
+  buildTrafficSources(): void {
+    this.trafficSources = [
+      { label: 'Interno', percentage: this.getreferencesNumber(), colorClass: 'purple' },
+      { label: 'Busca', percentage: this.getreferencesNumber(), colorClass: 'pink' },
+      { label: 'Social', percentage: this.getreferencesNumber(), colorClass: 'cyan' },
+      { label: 'Direto', percentage: this.getreferencesNumber(), colorClass: 'purple-dark' },
+      { label: 'Links', percentage: this.getreferencesNumber(), colorClass: 'purple-dark' },
+    ];
+  }
+
+  buildPages(): void {
+    this.pages = [
+      {
+        uv: this.getreferencesNumber(),
+        title: 'Correio do Povo',
+        url: 'taroba.com.br/',
+        time: '0:12',
+        scrolling: '73%',
+      },
+      {
+        uv: this.getreferencesNumber(),
+        title: 'Adolescente mata pais e irmão de três anos...',
+        url: 'taroba.com.br/',
+        time: '0:37',
+        scrolling: '82%',
+      },
+      {
+        uv: this.getreferencesNumber(),
+        title: 'Acúmulo de água alaga ruas, atinge...',
+        url: 'taroba.com.br/',
+        time: '0:41',
+        scrolling: '76%',
+      },
+      {
+        uv: this.getreferencesNumber(),
+        title: 'Kannemann está entre as vítimas de...',
+        url: 'taroba.com.br/',
+        time: '0:22',
+        scrolling: '68%',
+      },
+    ];
+  }
+
+  buildReferences(): void {
+    this.references = [
+      { name: 'Google Discover', count: this.getreferencesNumber() },
+      { name: 'Facebook', count: this.getreferencesNumber() },
+      { name: 'Google Search', count: this.getreferencesNumber() },
+      { name: 'Email, apps, IM', count: this.getreferencesNumber() },
+      { name: 'Google News', count: this.getreferencesNumber() },
+      { name: 'Taboola', count: this.getreferencesNumber() },
+      { name: 'Twitter', count: this.getreferencesNumber() },
+      { name: 'T7.com', count: this.getreferencesNumber() },
+      { name: 'Bing', count: this.getreferencesNumber() },
+      { name: 'Instagram', count: this.getreferencesNumber() },
+    ];
+
+    this.cdr.detectChanges();
+  }
+
+    buildCategoryPages(): void {
+    this.categoryPages = [
+      { name: 'Politica', count: this.getreferencesNumber() },
+      { name: 'Esportes', count: this.getreferencesNumber() },
+    ];
+
+    this.cdr.detectChanges();
+  }
+
+  getreferencesNumber(): number {
+    return Math.floor(Math.random() * 100);
+  }
 }

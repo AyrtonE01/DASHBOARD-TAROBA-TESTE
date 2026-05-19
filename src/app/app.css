@@ -7,14 +7,14 @@
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 280px 1fr 300px;
+  grid-template-columns: 350px 1fr 300px;
   gap: 20px;
 }
 
 .card {
   background: #ffffff;
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 8px;
+  padding: 12px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.02);
   border: 1px solid #edf2f7;
   margin-bottom: 20px;
@@ -22,7 +22,7 @@
 
 .card-row { 
   display: flex; 
-  gap: 10px; 
+  gap: 5px; 
 }
 
 .card.half { 
@@ -46,19 +46,22 @@
   align-items: center;
   position: relative;
   flex: 1;
-  max-width: 280px;
+  max-width: 400px;
 }
 
 .search-icon {
   position: absolute;
-  left: 12px;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);  
+  font-size: 16px;
   color: #a0aec0;
-  font-size: 0.9rem;
+  pointer-events: none;
 }
 
 .search-input {
   width: 100%;
-  padding: 8px 12px 8px 36px;
+  padding: 8px 36px 8px 10px;
   border: 1px solid #e2e8f0;
   border-radius: 6px;
   font-size: 0.9rem;
@@ -143,13 +146,49 @@
   background-color: #f7fafc;
 }
 
-.main-metric {
-  background: linear-gradient(135deg, #6366f1, #4f46e5);
-  color: white;
+.main-metric-container {
+    position: relative;
+    width: 100%;
+}
+
+.card.main-metric {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: linear-gradient(to right, #7b2ae1, #9F52FE);
+    height: 100px;
+}
+
+.comparison-card {
+    position: absolute;
+    top: 25px;
+    right: -5px;
+    width: 60%; 
+    box-sizing: border-box;
+}
+
+.comparison-header {
+    display: flex; align-items: center; gap: 2px;
+    padding: 4px;
+    border-radius: 8px 8px 0px 0px;
+    background-color: #ECEFF1;
+}
+
+.comparison-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+    padding: 4px;
+}
+
+.details-text {
+    display: block;
+    font-size: 11px;
 }
 
 .huge-number { 
-  font-size: 3rem; 
+  font-size: 2rem; 
   font-weight: bold; 
   margin: 10px 0 0 0; 
 }
@@ -178,7 +217,8 @@
 
 .metric-label {
   flex: 2;
-  color: #718096;
+  font-size: 12px; 
+  font-weight: 200
 }
 
 .metric-value {
@@ -302,26 +342,10 @@
   background: #9333ea; 
 }
 
-.references-title {
-  margin-top: 0;
-  margin-bottom: 20px;
-  font-size: 1.1rem;
-  color: #333;
-}
-
 .reference-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 8px 0;
   font-size: 0.9rem;
-}
-
-.reference-name {
-  color: #718096; 
-}
-
-.reference-count {
-  color: #4a5568;
-  font-weight: 500;
 }
